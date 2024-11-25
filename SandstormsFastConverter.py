@@ -10,18 +10,20 @@ def create_vmt_file(input_path):
     # Формируем имя нового файла с расширением .vmt
     output_path = f"{base_name}.vmt"
     
-    # Убираем расширение из пути до файла
-    base_texture_path = os.path.join(os.path.dirname(input_path), base_name)
+    # Определяем путь к родительской папке родительской директории скрипта
+    grand_parent_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    
+    # Формируем полное имя текстуры без пути
+    texture_name_only = base_name
     
     # Создаем содержимое для нового файла
     content = f"""LightmappedGeneric
 {{
-\t$basetexture {base_texture_path}
+\t$basetexture {texture_name_only}
 }}"""
     
     # Записываем содержимое в новый файл
-    parent_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    final_output_path = os.path.join(parent_folder, output_path)
+    final_output_path = os.path.join(grand_parent_folder, output_path)
     
     with open(final_output_path, 'w') as file:
         file.write(content)
